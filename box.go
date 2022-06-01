@@ -2,6 +2,7 @@ package golang_united_school_homework
 
 import (
 	"fmt"
+	"reflect"
 )
 
 // box contains list of shapes and able to perform operations on them
@@ -13,7 +14,7 @@ type box struct {
 // NewBox creates new instance of box
 func NewBox(shapesCapacity int) *box {
 	return &box{
-		shapes:         make([]Shape, 0),
+		//shapes:         make([]Shape, 0),
 		shapesCapacity: shapesCapacity,
 	}
 }
@@ -87,14 +88,24 @@ func (b *box) SumArea() float64 {
 // RemoveAllCircles removes all circles in the list
 // whether circles are not exist in the list, then returns an error
 func (b *box) RemoveAllCircles() error {
-	if len(b.shapes) == 0 {
-		return fmt.Errorf("whether circles are not exist in the list")
-	} else {
-		//empty := make([]Shape, 0)
-		//b.shapes = append(b.shapes[:], empty[0])
-		//b.shapes = make([]Shape, 0)
-		b.shapes = nil
-		b.shapes = make([]Shape, 0)
-		return nil
+	//var circles = make([]Shape, 0)
+	if len(b.shapes) > 0 {
+		//return fmt.Errorf("whether circles are not exist in the list")
+		for i, s := range b.shapes {
+			if reflect.DeepEqual(b.shapes[i], Circle) {
+				_, err := b.ExtractByIndex(i)
+				if err != nil {
+					return err
+				}
+			}
+			_ = s
+		}
 	}
+	//empty := make([]Shape, 0)
+	//b.shapes = append(b.shapes[:], empty[0])
+	//b.shapes = make([]Shape, 0)
+	//b.shapes = nil
+	//b.shapes = make([]Shape, 0)
+	//circles = nil
+	return fmt.Errorf("whether circles are not exist in the list")
 }
