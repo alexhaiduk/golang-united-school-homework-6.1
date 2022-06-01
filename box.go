@@ -92,7 +92,7 @@ func (b *box) RemoveAllCircles() error {
 	if len(b.shapes) > 0 {
 		//return fmt.Errorf("whether circles are not exist in the list")
 		for i, s := range b.shapes {
-			if reflect.DeepEqual(b.shapes[i], Circle) {
+			if reflect.DeepEqual(b.shapes[i], &Circle{}) {
 				_, err := b.ExtractByIndex(i)
 				if err != nil {
 					return err
