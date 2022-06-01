@@ -60,10 +60,10 @@ func (b *box) ReplaceByIndex(i int, shape Shape) (Shape, error) {
 		removed = append(removed, b.shapes[i])
 		temp = append(temp, b.shapes[i+1:]...)
 		b.shapes = append(b.shapes[:i], shape)
-		b.shapes = append(b.shapes[:i], temp...)
+		b.shapes = append(b.shapes[:i+1], temp...)
 		return removed[0], nil
 	}
-	return removed[0], fmt.Errorf("shape by index doesn't exist or index went out of the range")
+	return nil, fmt.Errorf("shape by index doesn't exist or index went out of the range")
 }
 
 // SumPerimeter provides sum perimeter of all shapes in the list.
@@ -88,11 +88,13 @@ func (b *box) SumArea() float64 {
 // whether circles are not exist in the list, then returns an error
 func (b *box) RemoveAllCircles() error {
 	if len(b.shapes) == 0 {
-		return fmt.Errorf("are not exist in the list")
+		return fmt.Errorf("whether circles are not exist in the list")
 	} else {
-		empty := make([]Shape, 0)
-		b.shapes = append(b.shapes[0:], empty[0])
+		//empty := make([]Shape, 0)
+		//b.shapes = append(b.shapes[:], empty[0])
 		//b.shapes = make([]Shape, 0)
+		b.shapes = nil
+		b.shapes = make([]Shape, 0)
 		return nil
 	}
 }
