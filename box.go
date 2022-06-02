@@ -2,7 +2,6 @@ package golang_united_school_homework
 
 import (
 	"fmt"
-	"reflect"
 )
 
 // box contains list of shapes and able to perform operations on them
@@ -70,7 +69,7 @@ func (b *box) ReplaceByIndex(i int, shape Shape) (Shape, error) {
 // SumPerimeter provides sum perimeter of all shapes in the list.
 func (b *box) SumPerimeter() float64 {
 	var result float64
-	for i, _ := range b.shapes {
+	for i := range b.shapes {
 		result += b.shapes[i].CalcPerimeter()
 	}
 	return result
@@ -79,7 +78,7 @@ func (b *box) SumPerimeter() float64 {
 // SumArea provides sum area of all shapes in the list.
 func (b *box) SumArea() float64 {
 	var result float64
-	for i, _ := range b.shapes {
+	for i := range b.shapes {
 		result += b.shapes[i].CalcArea()
 	}
 	return result
@@ -88,24 +87,23 @@ func (b *box) SumArea() float64 {
 // RemoveAllCircles removes all circles in the list
 // whether circles are not exist in the list, then returns an error
 func (b *box) RemoveAllCircles() error {
-	//var circles = make([]Shape, 0)
+	var result error
 	if len(b.shapes) > 0 {
-		//return fmt.Errorf("whether circles are not exist in the list")
-		for i, s := range b.shapes {
-			if reflect.DeepEqual(b.shapes[i], &Circle{}) {
+		c := 0
+		for i := 0; i < len(b.shapes); i++ {
+			_, ok := b.shapes[i].(*Circle)
+			if ok {
 				_, err := b.ExtractByIndex(i)
 				if err != nil {
-					return err
+					result = err
 				}
+				c++
+				i--
 			}
-			_ = s
+		}
+		if c == 0 {
+			result = fmt.Errorf("whether circles are not exist in the list")
 		}
 	}
-	//empty := make([]Shape, 0)
-	//b.shapes = append(b.shapes[:], empty[0])
-	//b.shapes = make([]Shape, 0)
-	//b.shapes = nil
-	//b.shapes = make([]Shape, 0)
-	//circles = nil
-	return fmt.Errorf("whether circles are not exist in the list")
+	return result
 }
